@@ -11,6 +11,7 @@ import CustomText from '../Components/CustomText/CustomText';
 import Colors from '../Utils/Colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import DrawerContent from '../Components/DrawerContent/DrawerContent';
+import Items from '../Screens/Items/Items';
 
 function SettingsScreen() {
     return (
@@ -109,6 +110,7 @@ class Navigation extends Component {
         return (
             <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <DrawerContent {...props} />}>
                 <Drawer.Screen name="Home" component={this.HomeTabs} />
+
             </Drawer.Navigator>
         );
     }
@@ -121,6 +123,7 @@ class Navigation extends Component {
             <NavigationContainer>
                 <Stack.Navigator initialRouteName="Home">
                     <Stack.Screen name="Home" component={this.HomeDrawer} options={{ headerShown: false }} />
+                    <Stack.Screen name="Items" component={Items} options={{ headerShown: false }} />
                 </Stack.Navigator>
             </NavigationContainer>
         )

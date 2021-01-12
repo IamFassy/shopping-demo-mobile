@@ -7,6 +7,7 @@ import CustomText from '../../Components/CustomText/CustomText';
 import Colors from '../../Utils/Colors';
 import Loading from '../../Utils/Loading';
 import { heightPercentageToDP, widthPercentageToDP } from '../../Utils/ResponsiveUI';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 export class Home extends Component {
     constructor(props) {
@@ -35,13 +36,25 @@ export class Home extends Component {
                 console.log(err, "err");
             })
     }
+    toItems = (title) => {
+        this.props.navigation.navigate("Items", {
+            title
+        })
+    }
 
     categoryComponent = (item) => {
-        console.log(item.img, "item");
+        console.log(item, "item");
         return (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => this.toItems(item.name)}>
                 <View style={styles.categoryButton}>
                     <Image resizeMode="cover" source={{ uri: item.img }} style={{ width: "100%", height: "100%" }} />
+                    <View style={styles.categoryTextView}>
+                        <View style={styles.categoryTextInnerView}>
+                            <CustomText size="subHeading" style={styles.categoryText}>{item.name}</CustomText>
+                        </View>
+
+                    </View>
+
                 </View>
             </TouchableOpacity>
         )
@@ -51,15 +64,23 @@ export class Home extends Component {
         return (
 
             <View style={styles.container}>
+                <View style={styles.topView}>
+                    <View style={styles.drawerView}>
+                        <TouchableOpacity onPress={() => this.props.navigation.toggleDrawer()}>
+                            <FontAwesomeIcon icon={"align-right"} size={24} color={Colors.darkText} />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.textView}>
+                        <CustomText type="bold" style={styles.leftText} size="heading">Shop<CustomText style={styles.rightText} size="heading">cart</CustomText></CustomText>
+                    </View>
+                </View>
                 {this.state.loading &&
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                         <Loading />
                     </View>}
                 {this.state.loading === false &&
                     <View style={styles.container}>
-                        <View style={styles.topView}>
-                            <CustomText type="bold" style={styles.leftText} size="heading">Shop<CustomText style={styles.rightText} size="heading">cart</CustomText></CustomText>
-                        </View>
+
                         <View style={styles.bannerView}>
                             <Banners />
                         </View>
@@ -104,7 +125,10 @@ const styles = StyleSheet.create({
         color: Colors.primaryColor
     },
     topView: {
-
+        display: "flex",
+        flexDirection: "row",
+        width: widthPercentageToDP(100),
+        marginBottom: 10
     },
     rightText: {
         color: Colors.green
@@ -120,5 +144,29 @@ const styles = StyleSheet.create({
     categoryButton: {
         width: "100%",
         height: "100%"
+    },
+    categoryTextView: {
+        backgroundColor: Colors.white,
+        position: "relative",
+        zIndex: 1,
+        bottom: 40,
+        width: 120,
+        alignSelf: "center",
+        padding: 2
+    },
+    categoryTextInnerView: {
+        backgroundColor: Colors.tabBackground,
+    },
+    categoryText: {
+        color: Colors.white,
+        textAlign: "center"
+    },
+    drawerView: {
+        flex: 0.1,
+        alignItems: "center"
+    },
+    textView: {
+        flex: 0.8,
+        alignItems: "center"
     }
 })

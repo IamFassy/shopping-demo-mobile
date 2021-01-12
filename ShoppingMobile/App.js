@@ -3,10 +3,10 @@ import { StatusBar, Text, View } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import Navigation from './source/Navigation/Navigation';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faHome, faPercent, faShoppingCart, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faPercent, faShoppingCart, faSearch, faUser, faAlignRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import Colors from './source/Utils/Colors';
 
-library.add(faHome, faPercent, faShoppingCart, faSearch, faUser);
+library.add(faHome, faPercent, faShoppingCart, faSearch, faUser, faAlignRight, faChevronLeft);
 
 export class App extends Component {
   componentDidMount() {

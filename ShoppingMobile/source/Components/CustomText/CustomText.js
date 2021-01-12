@@ -8,7 +8,7 @@ import { StyleSheet, Text } from 'react-native';
 
 const CustomText = (props) => {
     return (
-        <Text style={[
+        <Text numberOfLines={props.numberOfLines} style={[
             props.size === "heading" ? styles.headingText : props.size === "subHeading" ? styles.subHeadingText : styles.commonText,
             {
                 fontFamily: "Roboto-Regular",
