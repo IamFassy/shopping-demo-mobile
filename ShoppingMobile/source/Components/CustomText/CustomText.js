@@ -1,10 +1,6 @@
-//Custom text component for reusability
 
-//Library
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
-//Components
-// import Colors from '../../Utils/Colors';
 
 const CustomText = (props) => {
     return (

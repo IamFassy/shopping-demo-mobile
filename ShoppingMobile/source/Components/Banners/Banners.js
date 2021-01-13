@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
-import Swiper from 'react-native-swiper'
-import Colors from '../../Utils/Colors'
+import React, { Component } from 'react';
+import { StyleSheet, View } from 'react-native';
+import Swiper from 'react-native-swiper';
+import Colors from '../../Utils/Colors';
+import FastImage from 'react-native-fast-image';
 
 
 
@@ -10,13 +11,13 @@ export default class Banners extends Component {
         return (
             <Swiper style={styles.wrapper} activeDotColor={Colors.white} removeClippedSubviews={false} autoplay={true} >
                 <View style={styles.slide}>
-                    <Image style={styles.img} source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS37XN-7CrSo3eUjbxbK2-xE_T8pxfhORvCFA&usqp=CAU" }} />
+                    <FastImage style={styles.img} source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS37XN-7CrSo3eUjbxbK2-xE_T8pxfhORvCFA&usqp=CAU" }} />
                 </View>
                 <View style={styles.slide}>
-                    <Image style={styles.img} source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS37XN-7CrSo3eUjbxbK2-xE_T8pxfhORvCFA&usqp=CAU" }} />
+                    <FastImage style={styles.img} source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS37XN-7CrSo3eUjbxbK2-xE_T8pxfhORvCFA&usqp=CAU" }} />
                 </View>
                 <View style={styles.slide}>
-                    <Image style={styles.img} source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS37XN-7CrSo3eUjbxbK2-xE_T8pxfhORvCFA&usqp=CAU" }} />
+                    <FastImage style={styles.img} source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS37XN-7CrSo3eUjbxbK2-xE_T8pxfhORvCFA&usqp=CAU" }} />
                 </View>
             </Swiper>
         )

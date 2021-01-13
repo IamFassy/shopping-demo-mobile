@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import CustomText from '../../Components/CustomText/CustomText';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Colors from '../../Utils/Colors';
 import { widthPercentageToDP } from '../../Utils/ResponsiveUI';
-import Bags from '../../Components/Bags/Bags';
+import ItemsList from '../../Components/ItemsList/ItemsList';
 
 export class Items extends Component {
 
@@ -18,7 +18,7 @@ export class Items extends Component {
 
     componentDidMount() {
         const { route } = this.props
-        this.setState({ title: route.params.title })
+        this.setState({ title: route.params !== undefined ? route.params.title : "Items" })
     }
 
     customTab = (title, type) => {
@@ -31,17 +31,24 @@ export class Items extends Component {
         )
     }
 
+    toDetail = (item) => {
+
+        this.props.navigation.navigate("ItemDetail", {
+            item: item
+        })
+    }
+
     render() {
         return (
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <View style={styles.headerView}>
                     <View style={styles.leftView}>
-                        <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                        <TouchableOpacity onPress={() => this.props.navigation.push("Home")}>
                             <FontAwesomeIcon icon={"chevron-left"} size={22} color={Colors.back} />
                         </TouchableOpacity>
                     </View>
                     <View style={styles.textView}>
-                        {this.state.title !== "" && <CustomText style={styles.leftText} size="heading">{this.state.title}</CustomText>}
+                        {this.state.title !== "" && <CustomText size="heading">{this.state.title}</CustomText>}
                     </View>
                 </View>
                 <View style={{ flex: 1 }}>
@@ -50,28 +57,34 @@ export class Items extends Component {
                             <View style={styles.tabView}>
                                 {this.customTab("Wallet & Bags", "first")}
                                 {this.customTab("Western wear", "second")}
-                                {this.customTab("Jewellery", "third")}
-                                {this.customTab("Accessories", "fourth")}
+                                {this.customTab("Accessories", "third")}
+                                {this.customTab("Jewellery", "fourth")}
                             </View>
                         </ScrollView>
                     </View>
 
                     <View style={styles.itemsView}>
+
                         {this.state.selectedTab === "first" &&
+                            <ItemsList type="bags" toDetail={(item) => this.toDetail(item)} />
+                        }
 
-                            <Bags />
+                        {this.state.selectedTab === "second" &&
+                            <ItemsList type="clothing" toDetail={(item) => this.toDetail(item)} />
+                        }
 
+                        {this.state.selectedTab === "third" &&
+                            <ItemsList type="accessories" toDetail={(item) => this.toDetail(item)} />
+                        }
+
+                        {this.state.selectedTab === "fourth" &&
+                            <ItemsList type="bags" toDetail={(item) => this.toDetail(item)} />
                         }
 
 
                     </View>
                 </View>
-
-
-
-
-
-            </View>
+            </SafeAreaView>
         )
     }
 }

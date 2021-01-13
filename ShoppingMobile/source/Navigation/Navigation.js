@@ -4,7 +4,6 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { heightPercentageToDP, widthPercentageToDP } from '../Utils/ResponsiveUI';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from '../Screens/Home/Home';
 import CustomText from '../Components/CustomText/CustomText';
@@ -12,6 +11,8 @@ import Colors from '../Utils/Colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import DrawerContent from '../Components/DrawerContent/DrawerContent';
 import Items from '../Screens/Items/Items';
+import ItemDetail from '../Screens/ItemDetail/ItemDetail';
+import { connect } from 'react-redux';
 
 function SettingsScreen() {
     return (
@@ -21,7 +22,8 @@ function SettingsScreen() {
     );
 }
 
-function MyTabBar({ state, descriptors, navigation }) {
+function MyTabBar({ state, descriptors, navigation, count }) {
+   
     return (
         <View style={{ flexDirection: 'row', justifyContent: "center", alignItems: "center", backgroundColor: "#323332" }}>
             {state.routes.map((route, index) => {
@@ -68,6 +70,12 @@ function MyTabBar({ state, descriptors, navigation }) {
                             <CustomText style={{ color: isFocused ? Colors.white : Colors.darkText, fontWeight: "bold", fontSize: 13, fontFamily: "Roboto-Regular", paddingTop: 3 }}>
                                 {label}
                             </CustomText>
+                            {label === "My Cart" && count > 0 &&
+                                <View style={styles.countView}>
+                                    <CustomText style={styles.countText} type="bold">
+                                        {count}
+                                    </CustomText>
+                                </View>}
                         </View>
 
                     </TouchableOpacity>
@@ -82,8 +90,8 @@ function MyTabBar({ state, descriptors, navigation }) {
 class Navigation extends Component {
     constructor() {
         super()
-    }
 
+    }
 
 
     HomeTabs = () => {
@@ -92,7 +100,7 @@ class Navigation extends Component {
 
         return (
             <Tab.Navigator
-                tabBar={props => <MyTabBar {...props} />}
+                tabBar={props => <MyTabBar {...props} count={this.props.count} />}
             >
                 <Tab.Screen name="Home" component={Home} />
                 <Tab.Screen name="Hot Offer" component={SettingsScreen} />
@@ -115,7 +123,7 @@ class Navigation extends Component {
         );
     }
     render() {
-        // console.log(this.props.loggedIn);
+      
         const Stack = createStackNavigator();
 
 
@@ -124,19 +132,41 @@ class Navigation extends Component {
                 <Stack.Navigator initialRouteName="Home">
                     <Stack.Screen name="Home" component={this.HomeDrawer} options={{ headerShown: false }} />
                     <Stack.Screen name="Items" component={Items} options={{ headerShown: false }} />
+                    <Stack.Screen name="ItemDetail" component={ItemDetail} options={{ headerShown: false }} />
                 </Stack.Navigator>
             </NavigationContainer>
         )
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        count: state.product.count
+    }
+}
 
 
-export default Navigation;
+export default connect(mapStateToProps)(Navigation);
 
 
 const styles = StyleSheet.create({
     tabButton: {
 
+    },
+    countView: {
+        backgroundColor: Colors.green,
+        position: "absolute",
+        borderRadius: 180,
+        right: 20,
+        top: 2,
+        width: 16,
+        height: 16,
+        zIndex: 1,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    countText: {
+        color: Colors.white,
+        fontSize: 10
     }
 })

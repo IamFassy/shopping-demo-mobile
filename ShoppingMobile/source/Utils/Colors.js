@@ -9,6 +9,10 @@ const Colors = {
     "tabBackground": "#323232",
     "itemsBackground": "#F1F1F1",
     "back": "#7F7F7F",
+    "red": "#FF2751",
+    "blue": "#0076FF",
+    "orange": "#FF9600",
+    "darkPrimary": "#0081B1"
 
 };
 

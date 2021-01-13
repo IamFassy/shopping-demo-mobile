@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, SafeAreaView, TouchableOpacity, Text, ScrollView } from 'react-native';
-import { StackActions, NavigationActions, CommonActions } from "@react-navigation/native";
+import { View, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import Colors from "../../Utils/Colors";
 import CustomText from '../CustomText/CustomText';
 
@@ -11,21 +10,22 @@ class DrawerContent extends Component {
 
     }
 
-
-
-
-
-    toNavigate = (title) => {
-
+    toNavigate = (title, to) => {
+        if (to) {
+            this.props.navigation.push(to, {
+                title
+            })
+        }
+        else {
+            Alert.alert("Coming Soon!!!!")
+        }
 
 
     }
 
-
-
-    navigationOptions = (title) => {
+    navigationOptions = (title, to) => {
         return (
-            <TouchableOpacity activeOpacity={1} onPress={() => this.toNavigate(title)} >
+            <TouchableOpacity onPress={() => this.toNavigate(title, to)} >
                 <View style={[styles.buttonView, { borderBottomWidth: title !== "Logout" ? 1 : 0 }]}>
                     <CustomText size="heading" style={styles.titleText}>
                         {title}
@@ -39,20 +39,17 @@ class DrawerContent extends Component {
 
 
         return (
-
             <SafeAreaView style={styles.drawerContent}>
 
                 <ScrollView showsVerticalScrollIndicator={false}>
 
-                    {this.navigationOptions("Men's Wear", 'Dashboard')}
-                    {this.navigationOptions("Women's Wear", 'InspectionList')}
-
-
-                    {this.navigationOptions("Accessories", 'InspectionDetails')}
-                    {this.navigationOptions("Track order", 'TodayInspection')}
-                    {this.navigationOptions("Account Details", 'TodayInspection')}
-                    {this.navigationOptions("Settings", 'TodayInspection')}
-                    {this.navigationOptions('Sign out', 'Dashboard')}
+                    {this.navigationOptions("Men's Wear", "Items")}
+                    {this.navigationOptions("Women's Wear", "Items")}
+                    {this.navigationOptions("Kid's Wear", "Items")}
+                    {this.navigationOptions("Track order", null)}
+                    {this.navigationOptions("Account Details", null)}
+                    {this.navigationOptions("Settings", null)}
+                    {this.navigationOptions('Sign out', null)}
                 </ScrollView>
             </SafeAreaView>
 

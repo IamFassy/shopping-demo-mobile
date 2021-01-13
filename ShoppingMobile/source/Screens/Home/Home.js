@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { getCategories, httpMethods } from '../../ApiManager/EndPoints';
 import NetworkManager from '../../ApiManager/NetworkManager';
 import Banners from '../../Components/Banners/Banners';
 import CustomText from '../../Components/CustomText/CustomText';
 import Colors from '../../Utils/Colors';
 import Loading from '../../Utils/Loading';
-import { heightPercentageToDP, widthPercentageToDP } from '../../Utils/ResponsiveUI';
+import { widthPercentageToDP } from '../../Utils/ResponsiveUI';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import FastImage from 'react-native-fast-image';
 
 export class Home extends Component {
     constructor(props) {
@@ -30,24 +31,25 @@ export class Home extends Component {
                 else {
                     this.setState({ error: true })
                 }
-                console.log(res, "res");
+
             })
             .catch((err) => {
-                console.log(err, "err");
+                this.setState({ error: true })
+
             })
     }
     toItems = (title) => {
-        this.props.navigation.navigate("Items", {
+        this.props.navigation.push("Items", {
             title
         })
     }
 
     categoryComponent = (item) => {
-        console.log(item, "item");
+
         return (
             <TouchableOpacity onPress={() => this.toItems(item.name)}>
                 <View style={styles.categoryButton}>
-                    <Image resizeMode="cover" source={{ uri: item.img }} style={{ width: "100%", height: "100%" }} />
+                    <FastImage resizeMode={FastImage.resizeMode.cover} source={{ uri: item.img }} style={{ width: "100%", height: "100%" }} />
                     <View style={styles.categoryTextView}>
                         <View style={styles.categoryTextInnerView}>
                             <CustomText size="subHeading" style={styles.categoryText}>{item.name}</CustomText>
@@ -63,7 +65,7 @@ export class Home extends Component {
 
         return (
 
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <View style={styles.topView}>
                     <View style={styles.drawerView}>
                         <TouchableOpacity onPress={() => this.props.navigation.toggleDrawer()}>
@@ -78,7 +80,7 @@ export class Home extends Component {
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                         <Loading />
                     </View>}
-                {this.state.loading === false &&
+                {!this.state.loading && !this.state.error &&
                     <View style={styles.container}>
 
                         <View style={styles.bannerView}>
@@ -100,14 +102,13 @@ export class Home extends Component {
                         </View>}
                     </View>
                 }
+                {!this.state.loading && this.state.error &&
+                    <View style={styles.container}>
+                        <CustomText size="heading">There was an error while fetching the data.</CustomText>
+                    </View>
 
-
-
-
-
-
-
-            </View>
+                }
+            </SafeAreaView>
         )
     }
 }
