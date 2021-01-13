@@ -51,7 +51,7 @@ const ItemsList = (props) => {
             {loading && <View style={styles.loadingView}>
                 <Loading />
             </View>}
-            {loading === false && data.length > 0 &&
+            {loading === false && data.length > 0 && !error &&
                 <View>
                     <FlatList
                         data={data}
@@ -62,7 +62,11 @@ const ItemsList = (props) => {
                         showsVerticalScrollIndicator={false}
                     />
                 </View>
-
+            }
+            {loading === false && error &&
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                    <CustomText size="heading">There was an error while fetching the data.</CustomText>
+                </View>
             }
         </View>
     )
